@@ -6,9 +6,7 @@
 
 ## Demo
 
-[![Watch the demo](https://img.shields.io/badge/▶%20Watch%20Demo-blue?style=for-the-badge)](DEMO_LINK_HERE)
-
-> Replace `DEMO_LINK_HERE` above with your YouTube or Google Drive link.
+[![Watch the demo](https://img.shields.io/badge/▶%20Watch%20Demo-blue?style=for-the-badge)](https://vngms.sharepoint.com/:v:/s/CLSSMC/IQC-I2D-cZ2vTLmDP0G7uqxrAeg9G32YLV6G44lg1XOfUGA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=t9Hqcc)
 
 ---
 
