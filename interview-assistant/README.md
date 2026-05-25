@@ -136,6 +136,61 @@ docker run -p 8000:8000 -p 9090:9090 --env-file .env interview-assistant
 
 ---
 
+## Deploy to AgentBase
+
+Chạy local là bước đầu. Để agent hoạt động **production** với endpoint ổn định, tự động scale, và monitoring tích hợp — deploy lên **GreenNode AgentBase**.
+
+### Dùng AgentBase Skills
+
+[**greennode-agentbase-skills**](https://github.com/vngcloud/greennode-agentbase-skills) là bộ skill dành riêng cho Claude Code, hỗ trợ toàn bộ lifecycle: scaffold → config → deploy → monitor → teardown.
+
+**Cài skill vào Claude Code:**
+
+```bash
+# Thêm vào CLAUDE.md của project
+echo "https://github.com/vngcloud/greennode-agentbase-skills" >> .claude/SKILLS.md
+```
+
+**Deploy agent (3 bước chính):**
+
+```
+/agentbase-wizard init        # Scaffold cấu hình AgentBase cho project
+/agentbase-deploy             # Containerize và deploy lên AgentBase
+/agentbase-monitor            # Xem logs, CPU/Memory, traces
+```
+
+Wizard sẽ hỏi tên agent, flavor (CPU/RAM), và IAM credentials — rồi tự động build Docker image, push lên VCR (VNGCloud Container Registry), và tạo runtime trên AgentBase.
+
+---
+
+### Lợi ích khi chạy trên AgentBase
+
+#### Endpoint ổn định — URL không đổi khi update version
+
+Mỗi agent có một **DEFAULT endpoint** với URL cố định. Bạn update code, deploy version mới — URL vẫn giữ nguyên, client không cần đổi config.
+
+![AgentBase Endpoint](docs/agentbase-endpoint.png)
+
+---
+
+#### Version control tự động — rollback bất kỳ lúc nào
+
+Mỗi lần deploy tạo ra một **snapshot version** tự động. Có thể xem lịch sử, so sánh, hoặc rollback về version cũ chỉ bằng vài click. Agent này hiện đã có 33 versions với flavor `runtime-s2-general-2x4` (2 CPU · 4 GB RAM).
+
+![AgentBase Versions](docs/agentbase-versions.png)
+
+---
+
+#### Monitoring tích hợp — CPU, Memory, Logs, Tracing
+
+AgentBase tích hợp sẵn **vMonitor Platform**: xem CPU Usage, Memory Usage theo thời gian thực, truy vết từng request qua Distributed Tracing — không cần setup thêm bất kỳ công cụ observability nào.
+
+![AgentBase Monitor](docs/agentbase-monitor.png)
+
+![AgentBase Tracing](docs/agentbase-tracing.png)
+
+---
+
 ## What to Customize
 
 ### Change the assessment criteria
