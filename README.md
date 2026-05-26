@@ -80,11 +80,11 @@ Bạn **không cần** làm giống các mẫu này. Đây chỉ là ví dụ th
 
 **Giải pháp:**
 
-- Upload CV + JD → AI sinh bộ câu hỏi phỏng vấn phù hợp với ứng viên
-- Phiên phỏng vấn được transcribe real-time qua VNGCloud MaaS Whisper
-- Sau phỏng vấn: AI chấm điểm theo rubric 9 tiêu chí và xuất báo cáo Excel
+- Upload CV + JD → **gemma-4-31b-it** sinh bộ câu hỏi phỏng vấn phù hợp với ứng viên
+- Phiên phỏng vấn được transcribe real-time qua GreenNode MaaS Whisper
+- Sau phỏng vấn: **gemma-4-31b-it** chấm điểm theo rubric 9 tiêu chí và xuất báo cáo Excel
 
-**Công nghệ:** FastAPI · WebSocket · VNGCloud MaaS (Whisper) · Claude Code CLI · openpyxl
+**Công nghệ:** FastAPI · WebSocket · GreenNode MaaS (Whisper + gemma-4-31b-it) · openpyxl
 
 ---
 
@@ -95,7 +95,7 @@ Một agent tốt trong cuộc thi thường có:
 - **Vấn đề thực tế** — giải quyết điều gì đó bạn hoặc đồng nghiệp gặp phải thực sự
 - **Input rõ ràng** — người dùng cung cấp gì? (file, text, audio, form...)
 - **Output có giá trị** — agent trả về gì? (báo cáo, code, quyết định, hành động...)
-- **Claude/AI làm phần khó** — logic phức tạp, phân tích, tổng hợp — không phải chỉ format text
+- **AI làm phần khó** — logic phức tạp, phân tích, tổng hợp — không phải chỉ format text
 
 Một số hướng chưa có mẫu để bạn tham khảo:
 

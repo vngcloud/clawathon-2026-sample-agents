@@ -1,14 +1,15 @@
 """
-Generate tailored interview questions from CV using Claude Code CLI.
+Generate tailored interview questions from CV using the configured LLM provider.
 Questions follow GreenNode's assessment framework and question bank.
 """
 import io
 import json
 import logging
-import subprocess
 
 import PyPDF2
 import docx
+
+from interview.llm_client import call_llm
 
 
 QUESTION_PROMPT = """Bạn là chuyên gia tuyển dụng của GreenNode. Dựa trên CV ứng viên và vị trí ứng tuyển, hãy tạo bộ câu hỏi phỏng vấn bằng TIẾNG VIỆT theo đúng framework đánh giá của GreenNode.
@@ -169,19 +170,9 @@ def generate_questions(cv_text: str, position: str, jd_text: str = "", timeout: 
     jd_display = jd_text.strip() if jd_text.strip() else "(Không có JD - tạo câu hỏi dựa trên CV và vị trí)"
     prompt = QUESTION_PROMPT.format(cv_text=cv_text, position=position, jd_text=jd_display)
 
+    output = ""
     try:
-        result = subprocess.run(
-            ["claude", "-p", prompt],
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-        )
-
-        if result.returncode != 0:
-            logging.error(f"Claude CLI error: {result.stderr}")
-            return {"error": f"Claude CLI failed: {result.stderr[:500]}"}
-
-        output = result.stdout.strip()
+        output = call_llm(prompt, timeout=timeout)
 
         if "```json" in output:
             output = output.split("```json")[1].split("```")[0].strip()
@@ -190,10 +181,11 @@ def generate_questions(cv_text: str, position: str, jd_text: str = "", timeout: 
 
         return json.loads(output)
 
-    except subprocess.TimeoutExpired:
+    except TimeoutError:
         return {"error": "Question generation timed out"}
     except json.JSONDecodeError as e:
         logging.error(f"Failed to parse JSON: {e}")
-        return {"error": f"Invalid JSON from Claude: {str(e)}", "raw_output": output[:2000]}
-    except FileNotFoundError:
-        return {"error": "Claude CLI not found. Install Claude Code."}
+        return {"error": f"Invalid JSON from LLM: {str(e)}", "raw_output": output[:2000]}
+    except RuntimeError as e:
+        logging.error(f"LLM call failed: {e}")
+        return {"error": str(e)}

@@ -1,10 +1,11 @@
 """
-Interview assessment using Claude Code CLI.
-Sends transcript + GreenNode rubric to `claude -p` and parses structured JSON.
+Interview assessment using the configured LLM provider (Claude CLI or GreenNode MaaS).
+Sends transcript + GreenNode rubric to the LLM and parses structured JSON.
 """
 import json
 import logging
-import subprocess
+
+from interview.llm_client import call_llm
 
 
 ASSESSMENT_PROMPT = """Bạn là người đánh giá phỏng vấn cho GreenNode. Phân tích bản ghi phỏng vấn dưới đây và đưa ra đánh giá có cấu trúc. TẤT CẢ nội dung đánh giá phải viết bằng TIẾNG VIỆT.
@@ -83,36 +84,23 @@ def assess_transcript(transcript: str, jd_text: str = "", timeout: int = 120) ->
     jd_display = jd_text.strip() if jd_text.strip() else "(Không có JD - đánh giá dựa trên nội dung phỏng vấn)"
     prompt = ASSESSMENT_PROMPT.format(transcript=transcript, jd_text=jd_display)
 
+    output = ""
     try:
-        result = subprocess.run(
-            ["claude", "-p", prompt],
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-        )
+        output = call_llm(prompt, timeout=timeout)
 
-        if result.returncode != 0:
-            logging.error(f"Claude CLI error: {result.stderr}")
-            return {"error": f"Claude CLI failed: {result.stderr[:500]}"}
-
-        output = result.stdout.strip()
-
-        # Try to extract JSON from the output (Claude might wrap in markdown fences)
         if "```json" in output:
             output = output.split("```json")[1].split("```")[0].strip()
         elif "```" in output:
             output = output.split("```")[1].split("```")[0].strip()
 
-        assessment = json.loads(output)
-        return assessment
+        return json.loads(output)
 
-    except subprocess.TimeoutExpired:
-        logging.error("Claude CLI timed out")
+    except TimeoutError:
+        logging.error("LLM timed out during assessment")
         return {"error": "Assessment timed out"}
     except json.JSONDecodeError as e:
-        logging.error(f"Failed to parse Claude output as JSON: {e}")
-        logging.error(f"Raw output: {output[:1000]}")
-        return {"error": f"Invalid JSON from Claude: {str(e)}", "raw_output": output[:2000]}
-    except FileNotFoundError:
-        logging.error("Claude CLI not found. Ensure 'claude' is in PATH.")
-        return {"error": "Claude CLI not found. Install Claude Code and ensure 'claude' is in PATH."}
+        logging.error(f"Failed to parse LLM output as JSON: {e}")
+        return {"error": f"Invalid JSON from LLM: {str(e)}", "raw_output": output[:2000]}
+    except RuntimeError as e:
+        logging.error(f"LLM call failed: {e}")
+        return {"error": str(e)}
