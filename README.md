@@ -72,6 +72,28 @@ Bạn **không cần** làm giống các mẫu này. Đây chỉ là ví dụ th
 
 ## Agents mẫu
 
+### [GreenNode PM Assistant](GreenNode-OpenClaw%20PM%20Assistant/)
+
+> Trợ lý AI chuyên biệt cho Product Manager, chạy 24/7 trên AgentBase — triển khai một click, không cần code.
+
+**Vấn đề giải quyết:** PM phải xử lý khối lượng công việc rộng và phân mảnh — nghiên cứu thị trường, lập roadmap, phỏng vấn người dùng, viết PRD. Nghiên cứu thường xuyên bị trì hoãn vì tốn thời gian, và context bị mất giữa các phiên làm việc.
+
+**Giải pháp:**
+
+- **Nghiên cứu thị trường & đối thủ** — tìm kiếm web, tổng hợp thành báo cáo thay vì trả về danh sách link
+- **Lập roadmap** — draft, ưu tiên hóa và cấu trúc roadmap từ mục tiêu hoặc backlog ý tưởng
+- **Hỗ trợ phỏng vấn người dùng** — chuẩn bị bộ câu hỏi, tổng hợp insights
+- **Viết PRD** — draft và refine PRD từ brief
+- **Định cỡ thị trường** — ước tính TAM/SAM/SOM kèm giả định và phương pháp
+- **Tự động theo dõi AI & model mới** — định kỳ quét tin tức AI, lọc thông tin liên quan và push báo cáo phân tích + khuyến nghị (Adopt/Adapt/Alert) lên Telegram
+- **Bộ nhớ lâu dài** — ghi nhớ context qua các phiên (`SOUL.md`, `USER.md`, `MEMORY.md`)
+
+**Điểm đặc biệt:** Được tạo **một click trên GreenNode AgentBase** (OpenClaw runtime) — không cần server, Dockerfile hay deploy pipeline. Hành vi agent được định nghĩa bằng file Markdown, không phải source code, nên PM không cần kỹ năng kỹ thuật để đọc và điều chỉnh.
+
+**Công nghệ:** GreenNode AgentBase (OpenClaw 1-Click) · GreenNode MaaS · Telegram / Zalo
+
+---
+
 ### [Interview Assistant](interview-assistant/)
 
 > Hỗ trợ quy trình phỏng vấn tuyển dụng kỹ thuật tại GreenNode.
