@@ -52,7 +52,7 @@ Mỗi đội đăng ký sẽ nhận đầy đủ để bắt đầu ngay:
 
 Hình thức trao thưởng gồm 3 dạng kết hợp:
 
-- **Hiện kim** — tiền mặt trao trực tiếp tại lễ (phong bì cho đại diện đội)
+- **Hiện kim** — tiền mặt trao chuyển khoản cho đại diện đội)
 - **Hiện vật** — voucher/credit POC dịch vụ AI của GreenNode (cấp vào tài khoản đội thắng cung cấp trong vòng 14 ngày sau sự kiện)
 - Trường hợp đại diện Top 5 không thể tham dự: liên hệ Ban Tổ Chức để nhận giải sau
 
